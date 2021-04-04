@@ -75,7 +75,7 @@ namespace PTI.Microservices.Generators
                 string operationName = singlePathItem.Key.Substring(singlePathItem.Key.LastIndexOf("/") + 1);
                 foreach (var singleOperation in singlePathItem.Value.Operations)
                 {
-                    string methodName = $"{singleOperation.Key}{operationName}";
+                    string methodName = $"{singleOperation.Key}{operationName.Replace("{",string.Empty).Replace("}",string.Empty)}";
                     string methodParameters = string.Empty;
                     string requestUrl = singlePathItem.Key;
                     foreach (var singleParameter in singleOperation.Value.Parameters)
@@ -88,6 +88,9 @@ namespace PTI.Microservices.Generators
                                 break;
                             case "array":
                                 parameterType = "object[]";
+                                break;
+                            case "integer":
+                                parameterType = "int";
                                 break;
                             default:
                                 parameterType = singleParameter.Schema.Type;
@@ -102,7 +105,7 @@ namespace PTI.Microservices.Generators
                     methodDefinition.AppendLine("{");
                     methodDefinition.AppendLine("   try");
                     methodDefinition.AppendLine("       {");
-                    methodDefinition.AppendLine($"          string requestUrl = $\"{requestUrl}\";");
+                    methodDefinition.AppendLine($"          string requestUrl = $\"{requestUrl.TrimStart('/')}\";");
                     methodDefinition.AppendLine("           var result = await httpClient.GetFromJsonAsync<TOutput>(requestUrl);");
                     methodDefinition.AppendLine("           return result;");
                     methodDefinition.AppendLine("       }");

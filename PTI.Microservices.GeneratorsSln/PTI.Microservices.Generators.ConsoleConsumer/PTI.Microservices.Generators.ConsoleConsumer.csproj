@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PTI.Microservices.Generators\PTI.Microservices.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false">
       <IncludeAssets>all</IncludeAssets>
     </ProjectReference>
